@@ -1,0 +1,5 @@
+var DISQUSWIDGETS;
+
+if (typeof DISQUSWIDGETS != 'undefined') {
+    DISQUSWIDGETS.displayCount({"text":{"and":"and","comments":{"zero":"0","multiple":"{num}","one":"1"}},"counts":[{"id":"article_blt47ceb987ede0ad25:ko","comments":0},{"id":"article_blt17bba6a0bde264ad:ko","comments":0},{"id":"article_blt4a326a1a18986150:ko","comments":0},{"id":"article_blt141dbb660bde2685:ko","comments":0},{"id":"article_blt472c7f64234c0c23:ko","comments":0},{"id":"article_blt1b239ff83e4fa7c9:ko","comments":0},{"id":"article_blt1c485e17798b51e3:ko","comments":0},{"id":"article_blt3bb74e7c75ff0d99:ko","comments":0},{"id":"article_blt3b54c8023dbef544:ko","comments":0},{"id":"article_blt3f42ed40cac735ce:ko","comments":0}]});
+}

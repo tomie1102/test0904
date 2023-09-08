@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.MemberMapper">
+
+	<select id="read" resultType="org.zerock.domain.MemberVO">
+		select * from member_table where
+		m_no = #{m_no}
+	</select>
+	
+	<insert id="insert">
+		insert into member_table
+		values (seq_team.nextval, #{m_name}, #{m_id}, #{m_pw}, #{m_tel}, #{m_address})
+	</insert>
+	
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="m_no" order="BEFORE"
+			resultType="long">
+			select seq_member.nextval from dual
+		</selectKey>
+		insert into member_table
+		values (seq_team.nextval, #{m_name}, #{m_id}, #{m_pw}, #{m_tel}, #{m_address})
+	</insert>
+	
+	
+	<delete id="delete">
+		delete from member_table where m_no = #{m_no}
+	</delete>
+
+	<update id="update">
+		update member_table
+		set m_name =#{m_name},
+		m_pw = #{m_pw},
+		m_tel = #{m_tel},
+		m_address = #{m_address}
+		where m_no = #{m_no}
+	</update>
+
+
+</mapper>
