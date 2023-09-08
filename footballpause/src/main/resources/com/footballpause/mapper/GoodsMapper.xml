@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.footballpause.mapper.GoodsMapper">
+
+	<select id="listGoods"
+		resultType="com.footballpause.domain.GoodsVO">
+		<!-- id=메서드명, resultType=select 쿼리의 결과를 특정 클래스의 객체로 만듬 -->
+
+		select * from fbp_goods 
+
+	</select>
+
+	<insert id="register"> 
+	<!-- 쿼리 실행문 작성 삽입을 담당하는 sql문 insert into tbl_board -->
+		insert into fbp_goods(g_no, g_name, g_league, g_team, g_brand, g_price,
+		g_category, g_stock, g_fileName) 
+		values (seq_goods.nextval, #{g_name}, #{g_league}, #{g_team},
+		#{g_brand},#{g_price}, #{g_category}, #{g_stock}, #{g_fileName})
+	</insert>
+
+	<insert id="addselectKey">
+	
+	<selectKey keyProperty="g_no" order="BEFORE" resultType="long">
+	
+	select seq_goods.nextval from dual
+	
+	</selectKey> 
+	
+	insert into fbp_goods(g_no, g_name, g_league, g_team, g_brand, g_price,
+		g_category, g_stock, g_fileName) 
+		values (seq_goods.nextval, #{g_name}, #{g_league}, #{g_team},
+		#{g_brand},#{g_price}, #{g_category}, #{g_stock}, #{g_fileName})
+	
+	</insert>
+	
+	<select id="read" resultType="com.footballpause.domain.GoodsVO">
+		select * from fbp_goods where g_no = #{g_no}
+	</select>
+	
+	<delete id="delete">
+		delete from fbp_goods where g_no = #{g_no}
+	</delete>
+	
+	<update id="update">
+		update fbp_goods 
+		set g_name=#{g_name},
+		g_league=#{g_league},
+		g_team=#{g_team},
+		g_brand=#{g_brand},
+		g_price=#{g_price},
+		g_category=#{g_category},
+		g_stock=#{g_stock},
+		g_fileName=#{g_fileName}
+		where g_no=#{g_no}
+	</update>
+	
+	
+</mapper>
