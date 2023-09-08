@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.TeamMapper">
+
+	<select id="getList" resultType="org.zerock.domain.TeamVO">
+	<![CDATA[
+	select * from Team_table where T_no > 0
+	]]>
+	</select>
+	
+	<insert id="insert">
+		insert into Team_table
+		values (seq_team.nextval, #{t_name}, #{t_league}, #{t_photo}, #{t_stadium}, #{t_description})
+	</insert>
+	
+	
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="t_no" order="BEFORE"
+			resultType="long">
+			select seq_team.nextval from dual
+		</selectKey>
+		insert into team_table
+		values (seq_team.nextval, #{t_name}, #{t_league}, #{t_photo}, #{t_stadium}, #{t_description})
+	</insert>
+	
+	<select id="read" resultType="org.zerock.domain.TeamVO">
+		select * from Team_table where t_no = #{t_no}
+	</select>
+	
+	<delete id="delete">
+		delete from Team_table where t_no = #{t_no}
+	</delete>
+
+	<update id="update">
+		update Team_table
+		set t_name =#{t_name},
+		t_league = #{t_league},
+		t_photo = #{t_photo},
+		t_stadium = #{t_stadium},
+		t_description = #{t_description}
+		where t_no = #{t_no}
+	</update>
+	
+
+</mapper>

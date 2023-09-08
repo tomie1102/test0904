@@ -1,0 +1,4 @@
+(function(){let lw=function(script_path){let primary="//p.lngtdv.com/"+script_path;let secondary="//lngtd.com/"+script_path;let lS=function(path,onError){let s=document.createElement("script");s.type="text/javascript";s.src=path;s.async=true;s.onload=function(){};s.onerror=onError;let h=document.head;h.appendChild(s);}
+lS(primary,function(){lS(secondary,function(){})});}
+const sc=[];sc.push({"script_path":"goal/v1693400005.js","pct":100})
+const exp=sc.flatMap(co=>Array(co.pct).fill(co));const w=exp[Math.floor(Math.random()*exp.length)];lw(w.script_path);}());
