@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.NewsMapper">
+
+    <sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<select id="getList" resultType="org.zerock.domain.NewsVO">
+	<![CDATA[
+	select * from fbp_news where n_no > 0
+	]]>
+	</select>
+	
+	<select id="read" resultType="org.zerock.domain.NewsVO">
+		select * from fbp_news where n_no =
+		#{n_no}
+	</select>
+	
+	<insert id="insert">
+		insert into fbp_news(n_no, n_title, n_content, n_writer)
+		values (seq_news.nextval, #{n_title}, #{n_content}, #{n_writer} )
+	</insert>
+
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="n_no" order="BEFORE"
+			resultType="long">
+			select seq_news.nextval from dual
+		</selectKey>
+		
+		insert into fbp_news (n_no ,n_title , n_content , n_writer )
+		values (seq_news.nextval, #{n_title}, #{n_content}, #{n_writer}  )
+	</insert>
+	
+	<delete id="delete">
+		delete from fbp_news where n_no = #{n_no}
+	</delete>
+	
+	<update id="update">
+		update fbp_news
+		set n_title=#{n_title},
+		n_content=#{n_content},
+		n_writer = #{n_writer}
+		where n_no =
+		#{n_no}
+	</update>
+	
+    <select id="getListWithPaging" resultType="org.zerock.domain.NewsVO">
+	  <![CDATA[
+	  select 
+	    n_no, n_title, n_content, n_writer, n_regdate, n_updatedate, replycnt
+	  from 
+	      (
+	      select /*+INDEX_DESC(fbp_news pk_news) */
+	        rownum rn, n_no, n_title, n_content, n_writer, n_regdate, n_updatedate, replycnt
+	      from 
+	        fbp_news
+	      where 
+	  ]]>
+	  
+	  <include refid="criteria"></include>
+		
+		<![CDATA[    
+		      rownum <= #{pageNum} * #{amount}
+		      )
+		  where rn > (#{pageNum} -1) * #{amount}   
+		  ]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from fbp_news where
+		<include refid="criteria"></include>
+		 n_no > 0
+	</select>
+	
+	<update id="updateReplyCnt">
+		update fbp_news set replycnt = replycnt + #{amount} where n_no = #{n_no}
+	</update>
+	
+	
+</mapper>
